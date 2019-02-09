@@ -1,8 +1,11 @@
 package mma.trainschedule.common;
 
+import android.app.Activity;
 import android.content.Context;
+import android.net.ConnectivityManager;
 import android.widget.Toast;
 
+import java.net.InetAddress;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -33,6 +36,11 @@ public class Common {
         url = url.replaceAll("17%3A08", time);  // 19%3A24
 
         return url;
+    }
+
+    public static boolean isNetworkAvailable(Activity activity) {
+        ConnectivityManager cm = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null;
     }
 
 }

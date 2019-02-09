@@ -1,29 +1,28 @@
 package mma.trainschedule;
 
-import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Node;
-import org.jsoup.nodes.TextNode;
 
 import java.io.IOException;
 
+import static mma.trainschedule.common.Common.isNetworkAvailable;
 import static mma.trainschedule.common.Common.request;
 
 public class FragmentToWork extends Fragment {
 
     TextView timeTextView, earlierTextView, laterTextView;
     Document doc;
-    String[] departureTimes = new String[3];
+    String[] departureTimes = {"", "", ""};
     View rootView;
 
     public FragmentToWork() {
@@ -42,7 +41,7 @@ public class FragmentToWork extends Fragment {
 
         rootView = inflater.inflate(R.layout.fragment_to_work, container, false);
         timeTextView = rootView.findViewById(R.id.timeTextView);
-        earlierTextView = rootView.findViewById(R.id.earlierTimeTextView);
+//        earlierTextView = rootView.findViewById(R.id.earlierTimeTextView);
         laterTextView = rootView.findViewById(R.id.laterTimeTextView);
 
 //        Runnable runnable = new Runnable() {
@@ -75,8 +74,15 @@ public class FragmentToWork extends Fragment {
 //        Thread worker = new Thread(runnable);
 //        worker.start();
 
-        AsyncTaskRunner runner = new AsyncTaskRunner();
-        runner.execute();
+        if (isNetworkAvailable(getActivity())) {
+            AsyncTaskRunner runner = new AsyncTaskRunner();
+            runner.execute();
+        }
+        else {
+            timeTextView.setText(getString(R.string.no_internet));
+            timeTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 48);
+            laterTextView.setText("");
+        }
 
         return rootView;
     }
@@ -130,7 +136,7 @@ public class FragmentToWork extends Fragment {
                 results[i] = (results[i]).replaceAll("<span>", "");
                 results[i] = (results[i]).replaceAll("</span>", "");
             }
-            earlierTextView.setText(results[0]);
+//            earlierTextView.setText(results[0]);
             timeTextView.setText(results[1]);
             laterTextView.setText(results[2]);
         }
