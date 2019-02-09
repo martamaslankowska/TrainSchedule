@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Train Schedule</string>
+
+    <string name="fragment_to_work">HOME \u2192 WORK</string>
+    <string name="fragment_from_work">WORK \u2192 HOME</string>
+
 </resources>
