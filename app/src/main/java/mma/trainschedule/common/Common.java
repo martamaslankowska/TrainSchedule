@@ -6,6 +6,8 @@ import android.net.ConnectivityManager;
 import android.widget.Toast;
 
 import java.net.InetAddress;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -41,6 +43,24 @@ public class Common {
     public static boolean isNetworkAvailable(Activity activity) {
         ConnectivityManager cm = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null;
+    }
+
+    public static int minutesLeft(String departure) {
+        Date dt = new Date();
+        int hours = dt.getHours();
+        int minutes = dt.getMinutes();
+
+        DateFormat sdf = new SimpleDateFormat("hh:mm");
+        try {
+            Date today = sdf.parse(String.valueOf(hours) + ":" + String.valueOf(minutes));
+            Date train = sdf.parse(departure);
+            long time = train.getTime() - today.getTime();
+            time = time / (1000*60);
+            return (int) time;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 
 }

@@ -23,14 +23,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="130dp"
         android:text="..."
         android:textSize="64sp"
-        android:textColor="@color/darkGray"
+        android:textColor="@color/darkerGray"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/minutesTimeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text=""
+        android:textColor="@color/darkGray"
+        android:textSize="28sp"
+        android:textStyle="italic|bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timeTextView" />
 
     <TextView
         android:id="@+id/laterTimeTextView"
@@ -38,12 +52,13 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="30dp"
         android:text="..."
+        android:textColor="@color/lightGray"
         android:textSize="48sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timeTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/minutesTimeTextView" />
 
     <ImageView
         android:id="@+id/imageView"

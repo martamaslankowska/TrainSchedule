@@ -16,11 +16,12 @@ import org.jsoup.nodes.Node;
 import java.io.IOException;
 
 import static mma.trainschedule.common.Common.isNetworkAvailable;
+import static mma.trainschedule.common.Common.minutesLeft;
 import static mma.trainschedule.common.Common.request;
 
 public class FragmentFromWork extends Fragment {
 
-    TextView timeTextView, earlierTextView, laterTextView;
+    TextView timeTextView, earlierTextView, laterTextView, minutesTextView;
     Document doc;
     String[] departureTimes = {"", "", ""};
     View rootView;
@@ -43,36 +44,15 @@ public class FragmentFromWork extends Fragment {
         timeTextView = rootView.findViewById(R.id.timeTextView);
 //        earlierTextView = rootView.findViewById(R.id.earlierTimeTextView);
         laterTextView = rootView.findViewById(R.id.laterTimeTextView);
+        minutesTextView = rootView.findViewById(R.id.minutesTimeTextView);
 
-//        Runnable runnable = new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//
-//                    doc = Jsoup.connect(request()).get();
-//                    departureTime = doc.getElementsByAttributeValueMatching("class", "connection-search-results")
-//                            .get(0)
-//                            .childNodes().get(3)
-//                            .childNodes().get(2)
-//                            .childNodes().get(3)
-//                            .childNodes().get(0)
-//                            .childNodes().get(0)
-//                            .childNodes().get(2)
-//                            .toString();
-////                    departureTime = ((TextNode) htmlTime).text();
-////                    departureTime = htmlTime.getClass().getSimpleName();
-//
-//                    String a = "Hey";
-//                    timeTextView.setText(a);
-//
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        };
-//
-//        Thread worker = new Thread(runnable);
-//        worker.start();
+        return rootView;
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
 
         if (isNetworkAvailable(getActivity())) {
             AsyncTaskRunner runner = new AsyncTaskRunner();
@@ -84,7 +64,6 @@ public class FragmentFromWork extends Fragment {
             laterTextView.setText("");
         }
 
-        return rootView;
     }
 
 
@@ -139,6 +118,17 @@ public class FragmentFromWork extends Fragment {
 //            earlierTextView.setText(results[0]);
             timeTextView.setText(results[1]);
             laterTextView.setText(results[2]);
+
+            int minutesLeft = minutesLeft(results[1]);
+            if (minutesLeft <= 10)
+                minutesTextView.setTextColor(getResources().getColor(R.color.colorAccent));
+            if (minutesLeft == 0)
+                minutesTextView.setText(getString(R.string.buhaha));
+            else {
+                String hours = minutesLeft / 60 > 0 ? String.valueOf(minutesLeft / 60) + " h " : "";
+                String minutes = minutesLeft % 60 > 0 ? String.valueOf(minutesLeft % 60) + " min" : "";
+                minutesTextView.setText((hours + minutes));
+            }
         }
 
 
